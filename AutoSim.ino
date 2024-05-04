@@ -125,10 +125,10 @@ void loop() {
 
   if (rpmSignal != rpmSignalNew) {
     rpmSignal = rpmSignalNew;
-    rpmSignalPrint(rpmSignal);
+    //rpmSignalPrint(rpmSignal);
 
     rpmSignalMapped = map(rpmSignal, 0, 1023, 0, ENGINE_LIMIT_RPM);
-    rpmSignalMappedPrint(rpmSignalMapped);
+    //rpmSignalMappedPrint(rpmSignalMapped);
 
     engineShouldStart = !engineIsRunning && (rpmSignalMapped >= ENGINE_START_RPM);
     engineShouldStall = engineIsRunning && (rpmSignalMapped <= ENGINE_STALL_RPM);
@@ -145,9 +145,11 @@ void loop() {
   if (engineIsRunning) {
     currentRPM = rpmSignalMapped;
 
-    if ()
-    //Serial.print(currentRPM);
-    //Serial.print("\n");
+    if (debugEnabled) {
+      Serial.print(currentRPM);
+      Serial.print("\n");
+    }
+
     currentCylinder = crankshaftAngle / OPTIMAL_FIRING_ANGLE;
 
     if (doubleModulus(crankshaftAngle, DEGREES_PER_STROKE) + IGNITION_ADVANCE >= DEGREES_PER_STROKE) {
